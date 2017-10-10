@@ -3,8 +3,11 @@ package de.rainerfaller.hsm.service;
 import de.rainerfaller.hsm.dto.Client;
 import de.rainerfaller.hsm.dto.MeasurementPoint;
 import de.rainerfaller.hsm.dto.WaterLevel;
+import org.springframework.beans.factory.annotation.Value;
 
+import java.sql.*;
 import java.util.*;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import static java.util.Calendar.SECOND;
@@ -17,12 +20,36 @@ public class MpiService {
 
     }
 
+    // TODO das geht irgendwie nicht...
+    @Value("${jdbc.password}")
+    private String jdbcPassword;
+
     /**
      * Parses and stores the values send from the arduino, mainly temperature values
      *
      * @param rawValues mainly temperature values
      */
     public void processRawTemperatureData(List<String> rawValues) {
+
+        System.out.println("hi there " + new Date() + "P" + jdbcPassword);
+
+        try {
+            final String url = "jdbc:postgresql://hsm-database:5432/postgres";
+            Connection conn = DriverManager.getConnection(url, "postgres", jdbcPassword);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("select version()");
+            rs.next();
+            System.out.println("rs+" + rs.getString(1));
+
+            System.out.println("hi there2 " + new Date());
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("hi there3 " + new Date());
+
+
         Date now = new Date();
         Client client = null;
         WaterLevel waterLevel = null;
