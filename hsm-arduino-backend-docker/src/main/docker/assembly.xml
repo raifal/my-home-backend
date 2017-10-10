@@ -1,0 +1,21 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd
+http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 ">
+
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>de.rainerfaller.hsm.backend:hsm-arduino-backend-webapp</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+    <!--    <fileSets>
+            <fileSet>
+                <outputDirectory>static</outputDirectory>
+                <directory>${basedir}/../hsm-arduino-backend-webapp/static</directory>
+            </fileSet>
+        </fileSets>-->
+</assembly>
