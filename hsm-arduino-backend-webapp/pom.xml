@@ -18,7 +18,7 @@
 
     <build>
         <filters>
-            <filter>../../secrets/docker.env</filter>
+            <filter>../../secrets/secrets.env</filter>
         </filters>
         <resources>
             <resource>

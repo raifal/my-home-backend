@@ -4,6 +4,8 @@ import de.rainerfaller.hsm.dto.Client;
 import de.rainerfaller.hsm.dto.MeasurementPoint;
 import de.rainerfaller.hsm.dto.WaterLevel;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.*;
@@ -15,6 +17,8 @@ import static java.util.Calendar.SECOND;
 /**
  * Created by rfaller on 30.03.2017.
  */
+@Component
+@ComponentScan
 public class MpiService {
     public MpiService() {
 
@@ -33,8 +37,10 @@ public class MpiService {
 
         System.out.println("hi there " + new Date() + "P" + jdbcPassword);
 
+        if (true)
+            return;
         try {
-            final String url = "jdbc:postgresql://hsm-database:5432/postgres";
+            final String url = "jdbc:postgresql://192.168.99.100:5432/postgres";
             Connection conn = DriverManager.getConnection(url, "postgres", jdbcPassword);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("select version()");

@@ -1,4 +1,4 @@
-$lines = Get-Content ..\secrets\docker.env
+$lines = Get-Content ..\secrets\secrets.env
 foreach ($line in $lines) {
     $a,$b = $line.split('=')
     Set-Variable $a $b
