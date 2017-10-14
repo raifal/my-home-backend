@@ -3,13 +3,13 @@ package de.rainerfaller.hsm.service;
 import de.rainerfaller.hsm.dto.Client;
 import de.rainerfaller.hsm.dto.MeasurementPoint;
 import de.rainerfaller.hsm.dto.WaterLevel;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
-import java.sql.*;
 import java.util.*;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 import static java.util.Calendar.SECOND;
@@ -17,16 +17,13 @@ import static java.util.Calendar.SECOND;
 /**
  * Created by rfaller on 30.03.2017.
  */
-@Component
-@ComponentScan
+@Service
 public class MpiService {
-    public MpiService() {
 
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
-    // TODO das geht irgendwie nicht...
-    @Value("${jdbc.password}")
-    private String jdbcPassword;
+    private static final Logger logger = LoggerFactory.getLogger(MpiService.class);
 
     /**
      * Parses and stores the values send from the arduino, mainly temperature values
@@ -35,26 +32,8 @@ public class MpiService {
      */
     public void processRawTemperatureData(List<String> rawValues) {
 
-        System.out.println("hi there " + new Date() + "P" + jdbcPassword);
-
-        if (true)
-            return;
-        try {
-            final String url = "jdbc:postgresql://192.168.99.100:5432/postgres";
-            Connection conn = DriverManager.getConnection(url, "postgres", jdbcPassword);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select version()");
-            rs.next();
-            System.out.println("rs+" + rs.getString(1));
-
-            System.out.println("hi there2 " + new Date());
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println("hi there3 " + new Date());
-
+        String dbVersion = jdbcTemplate.queryForObject("select version()", String.class);
+        logger.info("DB Version: " + dbVersion);
 
         Date now = new Date();
         Client client = null;
@@ -105,7 +84,10 @@ public class MpiService {
 
         // add client to each record. Can't be done above as the order of data sets is unclear.
         // Now, we are sure to have all records
-        waterLevel.setClient(client);
+        if (waterLevel != null) {
+            waterLevel.setClient(client);
+        }
+
         for (MeasurementPoint mp : measurementPoints) {
             mp.setClient(client);
         }

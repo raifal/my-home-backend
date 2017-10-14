@@ -3,7 +3,6 @@ package de.rainerfaller.hsm.dto;
 /**
  * Created by rfaller on 27.04.2017.
  */
-
 public class Client {
     private String client;
 
