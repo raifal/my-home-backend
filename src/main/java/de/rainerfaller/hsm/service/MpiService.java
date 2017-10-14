@@ -41,8 +41,8 @@ public class MpiService {
         List<MeasurementPoint> measurementPoints = new ArrayList<>();
 
         for (String c : rawValues.stream()
-                .filter(c -> c.startsWith("http_hsm"))
-                .map(c -> c.substring(9))
+                .filter(c -> c.startsWith("hsm-"))
+                .map(c -> c.substring(4))
                 .collect(Collectors.toList())) {
 
             String subject = c.substring(0, c.indexOf("->"));

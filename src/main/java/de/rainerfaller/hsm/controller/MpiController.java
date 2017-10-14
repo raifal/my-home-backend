@@ -34,6 +34,7 @@ public class MpiController {
             Enumeration<String> values = request.getHeaders(key);
             while (values.hasMoreElements()) {
                 String value = values.nextElement();
+                headers.add(key + ":" + value);
             }
         }
 
