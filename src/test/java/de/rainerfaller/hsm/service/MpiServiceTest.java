@@ -20,7 +20,7 @@ public class MpiServiceTest {
         List<String> rawData = new ArrayList<>();
 
 
-        try (Stream<String> stream = Files.lines(Paths.get(getClass().getResource("/MpiRawData.txt").toURI()))) {
+        try (Stream<String> stream = Files.lines(Paths.get(getClass().getResource("/src/test/resources/MpiRawData.txt").toURI()))) {
             rawData = stream.collect(Collectors.toList());
         }
 

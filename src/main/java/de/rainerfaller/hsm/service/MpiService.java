@@ -110,6 +110,9 @@ public class MpiService {
             mp.setClient(client);
         }
 
+        for (MeasurementPoint mp : measurementPoints) {
+            System.out.println("mp-" + mp);
+        }
         //store(measurementPoints);
         //store(waterLevel);
     }
