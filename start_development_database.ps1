@@ -16,3 +16,6 @@ Write-Host ""
 docker stop hsm-database
 docker rm -v hsm-database
 docker run --name hsm-database -e POSTGRES_PASSWORD=${postgres_password} -p 5432:5432 -d postgres:10.0
+
+# command line terminal:
+# docker run -it --rm --link hsm-database:postgres postgres psql -h postgres -U postgres

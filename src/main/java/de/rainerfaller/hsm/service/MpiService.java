@@ -1,5 +1,8 @@
 package de.rainerfaller.hsm.service;
 
+import de.rainerfaller.hsm.dao.ClientRepository;
+import de.rainerfaller.hsm.dao.MeasurementPointRepository;
+import de.rainerfaller.hsm.dao.WaterLevelRepository;
 import de.rainerfaller.hsm.dto.Client;
 import de.rainerfaller.hsm.dto.MeasurementPoint;
 import de.rainerfaller.hsm.dto.WaterLevel;
@@ -22,6 +25,15 @@ public class MpiService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
+    private MeasurementPointRepository measurementPointRepository;
+
+    @Autowired
+    private WaterLevelRepository waterLevelRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(MpiService.class);
 
@@ -82,20 +94,20 @@ public class MpiService {
 
         }
 
+        if (!clientRepository.exists(client.getClient())) {
+            client = clientRepository.save(client);
+        }
+
         // add client to each record. Can't be done above as the order of data sets is unclear.
         // Now, we are sure to have all records
         if (waterLevel != null) {
             waterLevel.setClient(client);
+            waterLevelRepository.save(waterLevel);
         }
 
         for (MeasurementPoint mp : measurementPoints) {
             mp.setClient(client);
+            measurementPointRepository.save(mp);
         }
-
-        for (MeasurementPoint mp : measurementPoints) {
-            System.out.println("mp-" + mp);
-        }
-        //store(measurementPoints);
-        //store(waterLevel);
     }
 }

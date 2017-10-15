@@ -1,15 +1,27 @@
 package de.rainerfaller.hsm.dto;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by rfaller on 27.04.2017.
  */
+@Entity(name = "hsm_measurement_point")
 public class MeasurementPoint {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private Date timestamp;
     private String sensorId;
     private float temperatur;
+
+    @OneToOne(targetEntity = Client.class)
     private Client client;
+
+    public MeasurementPoint() {
+    }
 
     public MeasurementPoint(Date timestamp, String sensorId, float temperatur) {
         this.timestamp = timestamp;
@@ -49,10 +61,19 @@ public class MeasurementPoint {
         this.client = client;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "MeasurementPoint{" +
-                "timestamp=" + timestamp +
+                "id=" + id +
+                ", timestamp=" + timestamp +
                 ", sensorId='" + sensorId + '\'' +
                 ", temperatur=" + temperatur +
                 ", client=" + client +
