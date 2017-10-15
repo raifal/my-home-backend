@@ -17,4 +17,11 @@ public class Client {
     public void setClient(String client) {
         this.client = client;
     }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "client='" + client + '\'' +
+                '}';
+    }
 }

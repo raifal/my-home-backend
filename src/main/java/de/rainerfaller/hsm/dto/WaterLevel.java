@@ -48,4 +48,14 @@ public class WaterLevel {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return "WaterLevel{" +
+                "lowerVoltage=" + lowerVoltage +
+                ", higherVoltage=" + higherVoltage +
+                ", timestamp=" + timestamp +
+                ", client=" + client +
+                '}';
+    }
 }
