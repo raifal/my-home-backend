@@ -1,5 +1,8 @@
 package de.rainerfaller.hsm.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,24 +16,26 @@ public class MeasurementPoint {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Date timestamp;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date created;
     private String sensorId;
     private float temperatur;
 
     @OneToOne(targetEntity = Client.class)
+    @JsonIgnore
     private Client client;
 
     public MeasurementPoint() {
     }
 
-    public MeasurementPoint(Date timestamp, String sensorId, float temperatur) {
-        this.timestamp = timestamp;
+    public MeasurementPoint(Date created, String sensorId, float temperatur) {
+        this.created = created;
         this.sensorId = sensorId;
         this.temperatur = temperatur;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getCreated() {
+        return created;
     }
 
     public String getSensorId() {
@@ -41,8 +46,8 @@ public class MeasurementPoint {
         return temperatur;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     public void setSensorId(String sensorId) {
@@ -73,7 +78,7 @@ public class MeasurementPoint {
     public String toString() {
         return "MeasurementPoint{" +
                 "id=" + id +
-                ", timestamp=" + timestamp +
+                ", created=" + created +
                 ", sensorId='" + sensorId + '\'' +
                 ", temperatur=" + temperatur +
                 ", client=" + client +
