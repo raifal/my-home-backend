@@ -2,9 +2,11 @@ package de.rainerfaller.hsm.service;
 
 import de.rainerfaller.hsm.dao.ClientRepository;
 import de.rainerfaller.hsm.dao.MeasurementPointRepository;
+import de.rainerfaller.hsm.dao.SensorRepository;
 import de.rainerfaller.hsm.dao.WaterLevelRepository;
 import de.rainerfaller.hsm.dto.Client;
 import de.rainerfaller.hsm.dto.MeasurementPoint;
+import de.rainerfaller.hsm.dto.Sensor;
 import de.rainerfaller.hsm.dto.WaterLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,9 @@ public class MpiService {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private SensorRepository sensorRepository;
 
     @Autowired
     private MeasurementPointRepository measurementPointRepository;
@@ -85,10 +90,26 @@ public class MpiService {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(now);
                 calendar.add(SECOND, offsetSeconds);
+
+                Sensor sensor = null;
+                String sensorAddress = properties.get("addr");
+                List<Sensor> allSensors = sensorRepository.findByAddress(sensorAddress);
+                if (allSensors.size() == 0) {
+                    sensor = new Sensor();
+                    sensor.setAddress(sensorAddress);
+                    sensor.setSensorName("Name of " + sensorAddress);
+                    sensor.setSensorDescription("N/A");
+                    sensorRepository.save(sensor);
+                } else if (allSensors.size() == 1) {
+                    sensor = allSensors.get(0);
+                } else {
+                    throw new RuntimeException("Sensor " + sensorAddress + " found multiple times in database. Wrong configuration!");
+                }
+
                 measurementPoints.add(
                         new MeasurementPoint(
                                 calendar.getTime(),
-                                properties.get("addr"),
+                                sensor,
                                 Integer.parseInt(properties.get("value")) / 100f));
             }
 

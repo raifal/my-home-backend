@@ -18,7 +18,10 @@ public class MeasurementPoint {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date created;
-    private String sensorId;
+
+    @OneToOne(targetEntity = Sensor.class)
+    private Sensor sensor;
+
     private float temperatur;
 
     @OneToOne(targetEntity = Client.class)
@@ -28,9 +31,9 @@ public class MeasurementPoint {
     public MeasurementPoint() {
     }
 
-    public MeasurementPoint(Date created, String sensorId, float temperatur) {
+    public MeasurementPoint(Date created, Sensor sensor, float temperatur) {
         this.created = created;
-        this.sensorId = sensorId;
+        this.sensor = sensor;
         this.temperatur = temperatur;
     }
 
@@ -38,8 +41,8 @@ public class MeasurementPoint {
         return created;
     }
 
-    public String getSensorId() {
-        return sensorId;
+    public Sensor getSensor() {
+        return sensor;
     }
 
     public float getTemperatur() {
@@ -50,8 +53,8 @@ public class MeasurementPoint {
         this.created = created;
     }
 
-    public void setSensorId(String sensorId) {
-        this.sensorId = sensorId;
+    public void setSensor(Sensor sensor) {
+        this.sensor = sensor;
     }
 
     public void setTemperatur(float temperatur) {
@@ -79,7 +82,7 @@ public class MeasurementPoint {
         return "MeasurementPoint{" +
                 "id=" + id +
                 ", created=" + created +
-                ", sensorId='" + sensorId + '\'' +
+                ", sensor='" + sensor + '\'' +
                 ", temperatur=" + temperatur +
                 ", client=" + client +
                 '}';
