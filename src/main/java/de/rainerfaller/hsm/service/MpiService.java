@@ -99,6 +99,7 @@ public class MpiService {
                     sensor.setAddress(sensorAddress);
                     sensor.setSensorName("Name of " + sensorAddress);
                     sensor.setSensorDescription("N/A");
+                    sensor.setOrder(1);
                     sensorRepository.save(sensor);
                 } else if (allSensors.size() == 1) {
                     sensor = allSensors.get(0);

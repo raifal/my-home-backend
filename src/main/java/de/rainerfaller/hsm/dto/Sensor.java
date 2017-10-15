@@ -2,10 +2,7 @@ package de.rainerfaller.hsm.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name = "hsm_sensor")
 public class Sensor {
@@ -21,6 +18,28 @@ public class Sensor {
     private String sensorName;
 
     private String sensorDescription;
+
+    @Column(name = "sortorder")
+    private Integer order;
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    @Override
+    public String toString() {
+        return "Sensor{" +
+                "sensorId=" + sensorId +
+                ", address='" + address + '\'' +
+                ", sensorName='" + sensorName + '\'' +
+                ", sensorDescription='" + sensorDescription + '\'' +
+                ", order=" + order +
+                '}';
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
 
     public Sensor() {
     }
@@ -57,13 +76,4 @@ public class Sensor {
         this.sensorDescription = sensorDescription;
     }
 
-    @Override
-    public String toString() {
-        return "Sensor{" +
-                "sensorId='" + sensorId + '\'' +
-                ", address='" + address + '\'' +
-                ", sensorName='" + sensorName + '\'' +
-                ", sensorDescription='" + sensorDescription + '\'' +
-                '}';
-    }
 }
