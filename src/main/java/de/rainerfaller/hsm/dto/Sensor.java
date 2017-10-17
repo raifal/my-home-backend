@@ -12,7 +12,6 @@ public class Sensor {
     @JsonIgnore
     private Long sensorId;
 
-    @JsonIgnore
     private String address;
 
     private String sensorName;

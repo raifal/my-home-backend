@@ -4,7 +4,6 @@ import de.rainerfaller.hsm.dao.MeasurementPointRepository;
 import de.rainerfaller.hsm.dao.SensorRepository;
 import de.rainerfaller.hsm.dao.WaterLevelRepository;
 import de.rainerfaller.hsm.dto.MeasurementPoint;
-import de.rainerfaller.hsm.dto.Sensor;
 import de.rainerfaller.hsm.dto.WaterLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -57,13 +56,6 @@ public class DataController {
     public @ResponseBody
     Iterable<WaterLevel> waterlevel(HttpServletRequest request) {
         return waterLevelRepository.findAll();
-
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/hsm/sensor")
-    public @ResponseBody
-    Iterable<Sensor> sensor(HttpServletRequest request) {
-        return sensorRepository.findAll();
 
     }
 }
