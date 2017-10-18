@@ -18,8 +18,6 @@ public class SensorController {
     public SensorController() {
     }
 
-    // see https://spring.io/guides/tutorials/bookmarks/
-
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<Sensor> readSensors() {
         return sensorRepository.findAll();
