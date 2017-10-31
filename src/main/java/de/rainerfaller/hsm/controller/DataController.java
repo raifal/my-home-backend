@@ -42,14 +42,28 @@ public class DataController {
 
         // set endtime. TODO, maybe better using Java 8 or split database table into date and time?
         final GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(fromDate);
+        gc.set(Calendar.HOUR_OF_DAY, 0);
+        gc.set(Calendar.MINUTE, 0);
+        gc.set(Calendar.SECOND, 0);
+        gc.set(Calendar.MILLISECOND, 0);
+        Date fromBeginOfDayDate = gc.getTime();
+
         gc.setTime(toDate);
         gc.set(Calendar.HOUR_OF_DAY, 23);
         gc.set(Calendar.MINUTE, 59);
         gc.set(Calendar.SECOND, 59);
         gc.set(Calendar.MILLISECOND, 999);
+        Date toEndofDayDate = gc.getTime();
 
-        return measurementPointRepository.findByCreatedBetween(fromDate, gc.getTime());
+        return measurementPointRepository.findByCreatedBetween(fromBeginOfDayDate, toEndofDayDate);
+    }
 
+    // http://localhost:8080/hsm/measurementpoints/today
+    @RequestMapping(method = RequestMethod.GET, path = "/hsm/measurementpoints/today")
+    public @ResponseBody
+    Iterable<MeasurementPoint> measurementpoints() {
+        return measurementpoints(new Date(), new Date());
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/hsm/waterlevel")
