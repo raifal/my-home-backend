@@ -11,7 +11,7 @@ plink -l ${ipinterative_user} -pw ${ipinteractive_ssh_passphrase} -i ..\secrets\
 plink -l ${ipinterative_user} -pw ${ipinteractive_ssh_passphrase} -i ..\secrets\ipinteractive.ppk ${ipinterative_ip} mkdir ~${ipinterative_user}/build_temp/maven
 
 # copy to server
-pscp -scp -l ${ipinterative_user} -pw ${ipinteractive_ssh_passphrase} -i ..\secrets\ipinteractive.ppk target\hsm-arduino-backend-webapp.jar ${ipinterative_ip}:~${ipinterative_user}/build_temp/maven/
+pscp -scp -l ${ipinterative_user} -pw ${ipinteractive_ssh_passphrase} -i ..\secrets\ipinteractive.ppk target\my-home-backend-webapp.jar ${ipinterative_ip}:~${ipinterative_user}/build_temp/maven/
 pscp -scp -l ${ipinterative_user} -pw ${ipinteractive_ssh_passphrase} -i ..\secrets\ipinteractive.ppk Docker/Dockerfile ${ipinterative_ip}:~${ipinterative_user}/build_temp/.
 pscp -scp -l ${ipinterative_user} -pw ${ipinteractive_ssh_passphrase} -i ..\secrets\ipinteractive.ppk Docker/build.sh ${ipinterative_ip}:~${ipinterative_user}/build_temp/.
 
