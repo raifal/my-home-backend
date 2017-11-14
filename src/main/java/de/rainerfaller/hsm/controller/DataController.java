@@ -7,6 +7,7 @@ import de.rainerfaller.hsm.dto.MeasurementPoint;
 import de.rainerfaller.hsm.dto.WaterLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +31,15 @@ public class DataController {
     @Autowired
     private SensorRepository sensorRepository;
 
-    public DataController() {
+    private SimpMessagingTemplate template;
+
+    @Autowired
+    public DataController(SimpMessagingTemplate template) {
+        this.template = template;
     }
+
+  /*  public DataController() {
+    }*/
 
     // http://localhost:8080/hsm/measurementpoints/from/2017-10-15/to/2017-10-15/
     @RequestMapping(method = RequestMethod.GET, path = "/hsm/measurementpoints/from/{from}/to/{to}")
@@ -63,6 +71,11 @@ public class DataController {
     @RequestMapping(method = RequestMethod.GET, path = "/hsm/measurementpoints/today")
     public @ResponseBody
     Iterable<MeasurementPoint> measurementpoints() {
+
+
+        // TODO remove, just for websocket testing
+        this.template.convertAndSend("/topic/lightcontrol", "some important text");
+
         return measurementpoints(new Date(), new Date());
     }
 
