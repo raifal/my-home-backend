@@ -5,9 +5,9 @@ import de.rainerfaller.hsm.dao.SensorRepository;
 import de.rainerfaller.hsm.dao.WaterLevelRepository;
 import de.rainerfaller.hsm.dto.MeasurementPoint;
 import de.rainerfaller.hsm.dto.WaterLevel;
+import de.rainerfaller.hsm.service.PiManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 @Controller
 public class DataController {
@@ -31,15 +29,11 @@ public class DataController {
     @Autowired
     private SensorRepository sensorRepository;
 
-    private SimpMessagingTemplate template;
-
     @Autowired
-    public DataController(SimpMessagingTemplate template) {
-        this.template = template;
-    }
+    private PiManager piManager;
 
-  /*  public DataController() {
-    }*/
+    public DataController() {
+    }
 
     // http://localhost:8080/hsm/measurementpoints/from/2017-10-15/to/2017-10-15/
     @RequestMapping(method = RequestMethod.GET, path = "/hsm/measurementpoints/from/{from}/to/{to}")
@@ -72,9 +66,8 @@ public class DataController {
     public @ResponseBody
     Iterable<MeasurementPoint> measurementpoints() {
 
-
-        // TODO remove, just for websocket testing
-        this.template.convertAndSend("/topic/lightcontrol", "some important text");
+        // TODO remove, just for test
+        piManager.changeLightStatusAndSendInventory();
 
         return measurementpoints(new Date(), new Date());
     }
@@ -85,4 +78,6 @@ public class DataController {
         return waterLevelRepository.findAll();
 
     }
+
+
 }
