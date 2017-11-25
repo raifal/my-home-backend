@@ -65,10 +65,6 @@ public class DataController {
     @RequestMapping(method = RequestMethod.GET, path = "/hsm/measurementpoints/today")
     public @ResponseBody
     Iterable<MeasurementPoint> measurementpoints() {
-
-        // TODO remove, just for test
-        piManager.changeLightStatusAndSendInventory();
-
         return measurementpoints(new Date(), new Date());
     }
 

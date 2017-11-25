@@ -21,26 +21,24 @@ public class PiManager {
     }
 
     public void sendInventory() {
-        doIt(true);
+        sendWithInventory(new HashMap<>());
     }
 
-    public void changeLightStatusAndSendInventory()
+    public void changeLightStatusAndSendInventory(String lightId, boolean on)
     {
-        doIt(false);
+
+        Map<String, LightStatus> light = new HashMap<>();
+        light.put(lightId, on ? LightStatus.ON : LightStatus.OFF);
+
+        sendWithInventory(light);
     }
 
-    private void doIt(boolean sendInventory) {
-        // TODO remove, just for websocket testing
-        Map<String, LightStatus> l = new HashMap<>();
-
-        l.put("light1", LightStatus.OFF);
-        l.put("light2", LightStatus.ON);
+    private void sendWithInventory(Map<String, LightStatus> lights) {
 
         PiRequest request = new PiRequest();
+        request.setLightSwitch(lights);
 
-        if (sendInventory)
-            request.setLightSwitch(l);
-
+        // TODO add inventory
 
         ObjectMapper mapper = new ObjectMapper();
         String requestString = null;
