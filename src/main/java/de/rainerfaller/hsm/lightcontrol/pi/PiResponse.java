@@ -25,4 +25,12 @@ public class PiResponse {
     public void setDoorStatus(Map<String, DoorStatus> doorStatus) {
         this.doorStatus = doorStatus;
     }
+
+    @Override
+    public String toString() {
+        return "PiResponse{" +
+                "lightStatus=" + lightStatus +
+                ", doorStatus=" + doorStatus +
+                '}';
+    }
 }

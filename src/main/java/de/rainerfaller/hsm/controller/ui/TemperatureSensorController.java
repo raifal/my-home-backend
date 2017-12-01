@@ -11,11 +11,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/hsm/sensor")
 @Service
-public class SensorController {
+public class TemperatureSensorController {
     @Autowired
     private SensorRepository sensorRepository;
 
-    public SensorController() {
+    public TemperatureSensorController() {
     }
 
     @RequestMapping(method = RequestMethod.GET)

@@ -18,7 +18,7 @@ public class PiDeviceStatusController {
     private static final Logger logger = LoggerFactory.getLogger(PiDeviceStatusController.class);
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody PiResponse content, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<?> piDeviceStatus(@RequestBody PiResponse content, UriComponentsBuilder ucBuilder) {
 
         logger.info("Recived pi response " + content);
 
