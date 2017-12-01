@@ -1,4 +1,4 @@
-package de.rainerfaller.hsm.controller;
+package de.rainerfaller.hsm.controller.ui;
 
 import de.rainerfaller.hsm.dao.SensorRepository;
 import de.rainerfaller.hsm.dto.Sensor;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/hsm/sensors")
+@RequestMapping("/hsm/sensor")
 @Service
 public class SensorController {
     @Autowired

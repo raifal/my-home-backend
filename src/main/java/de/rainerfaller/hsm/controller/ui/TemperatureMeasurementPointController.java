@@ -1,4 +1,4 @@
-package de.rainerfaller.hsm.controller;
+package de.rainerfaller.hsm.controller.ui;
 
 import de.rainerfaller.hsm.dao.MeasurementPointRepository;
 import de.rainerfaller.hsm.dao.SensorRepository;
@@ -18,21 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
-public class DataController {
+public class TemperatureMeasurementPointController {
 
     @Autowired
     private MeasurementPointRepository measurementPointRepository;
 
-    @Autowired
-    private WaterLevelRepository waterLevelRepository;
-
-    @Autowired
-    private SensorRepository sensorRepository;
-
-    @Autowired
-    private PiManager piManager;
-
-    public DataController() {
+    public TemperatureMeasurementPointController() {
     }
 
     // http://localhost:8080/hsm/measurementpoints/from/2017-10-15/to/2017-10-15/
@@ -67,13 +58,4 @@ public class DataController {
     Iterable<MeasurementPoint> measurementpoints() {
         return measurementpoints(new Date(), new Date());
     }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/hsm/waterlevel")
-    public @ResponseBody
-    Iterable<WaterLevel> waterlevel(HttpServletRequest request) {
-        return waterLevelRepository.findAll();
-
-    }
-
-
 }

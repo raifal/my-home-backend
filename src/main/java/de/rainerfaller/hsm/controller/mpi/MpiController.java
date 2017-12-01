@@ -1,4 +1,4 @@
-package de.rainerfaller.hsm.controller;
+package de.rainerfaller.hsm.controller.mpi;
 
 import de.rainerfaller.hsm.service.MpiService;
 import org.springframework.beans.factory.annotation.Autowired;
