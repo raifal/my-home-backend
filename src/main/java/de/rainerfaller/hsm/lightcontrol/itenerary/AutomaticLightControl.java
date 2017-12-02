@@ -11,6 +11,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableScheduling
@@ -24,31 +26,24 @@ public class AutomaticLightControl {
     private LightController lightController;
 
     @Scheduled(cron = "*/30 * * * * *")
-    public void trigger()
-    {
-        if ( homeAwayController.homestatus().getHome() )
-        {
+    public void trigger() {
+        if (homeAwayController.homestatus().getHome()) {
             // at home, turn off all lights
-            for ( Light light: lightController.lights())
-            {
+            for (Light light : lightController.lights()) {
                 lightController.lightOff(light.getId());
             }
-        }
-        else
-        {
+        } else {
             // not at home, so enable automatic light control
             LocalTime now = LocalTime.now();
             logger.info("now is: " + now);
 
-            if ( inBetween(now,"21:40-21:42"))
-            {
+            if (inBetween(now, "21:40-21:42")) {
                 lightController.lightOn("8");
-            }
-            if ( inBetween(now,"21:43-21:45"))
-            {
+            } else if (inBetween(now, "21:43-21:45")) {
                 lightController.lightOn("8");
+            } else {
+                lightController.lightOff("8");
             }
-            lightController.lightOff("8");
         }
 
     }
