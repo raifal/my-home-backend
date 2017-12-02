@@ -1,4 +1,4 @@
-package de.rainerfaller.hsm.lightcontrol;
+package de.rainerfaller.hsm.websocket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
