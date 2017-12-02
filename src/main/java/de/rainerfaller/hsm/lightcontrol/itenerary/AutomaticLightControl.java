@@ -2,6 +2,7 @@ package de.rainerfaller.hsm.lightcontrol.itenerary;
 
 import de.rainerfaller.hsm.controller.ui.HomeAwayController;
 import de.rainerfaller.hsm.controller.ui.LightController;
+import de.rainerfaller.hsm.controller.ui.dto.Light;
 import de.rainerfaller.hsm.dao.HomeAwayRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +28,9 @@ public class AutomaticLightControl {
         if ( homeAwayController.homestatus().getHome() )
         {
             // at home, turn off all lights
-            for ( String id: lightController.lights().keySet())
+            for ( Light light: lightController.lights())
             {
-                lightController.lightOff(id);
+                lightController.lightOff(light.getId());
             }
         }
         else
