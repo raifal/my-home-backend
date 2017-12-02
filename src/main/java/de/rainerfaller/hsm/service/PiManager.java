@@ -20,7 +20,7 @@ public class PiManager {
         this.template = template;
     }
 
-    public void sendInventory() {
+    public void requestInventory() {
         sendWithInventory(new HashMap<>());
     }
 
@@ -37,8 +37,6 @@ public class PiManager {
 
         PiRequest request = new PiRequest();
         request.setLightSwitch(lights);
-
-        // TODO add inventory
 
         ObjectMapper mapper = new ObjectMapper();
         String requestString = null;
