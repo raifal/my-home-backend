@@ -37,18 +37,42 @@ public class AutomaticLightControl {
             LocalTime now = LocalTime.now();
             logger.info("now is: " + now);
 
-            if (inBetween(now, "21:40-21:42")) {
-                lightController.lightOn("8");
-            } else if (inBetween(now, "21:43-21:45")) {
-                lightController.lightOn("8");
-            } else {
-                lightController.lightOff("8");
+            Map<String, Boolean> l = new HashMap<>();
+            l.put("8", false);
+            l.put("9", false);
+            l.put("10", false);
+
+            Map<String, String> plan = new HashMap<>();
+            plan.put("8", "18:00-18:45");
+            plan.put("8", "19:00-19:45");
+            plan.put("8", "20:30-21:30");
+            plan.put("8", "06:30-07:00");
+
+            plan.put("10", "18:55-19:05");
+            plan.put("10", "20:05-22:05");
+
+            plan.put("9", "17:02-18:10");
+            plan.put("9", "22:15-23:10");
+            plan.put("9", "06:50-7:40");
+
+            for ( String id: plan.keySet())
+            {
+                if (withinPeriod(now, plan.get(id)))
+                    l.put(id, true);
+            }
+
+            for (String id: l.keySet())
+            {
+                if ( l.get(id))
+                    lightController.lightOn(id);
+                else
+                    lightController.lightOff(id);
             }
         }
 
     }
 
-    private boolean inBetween(LocalTime now, String between) {
+    private boolean withinPeriod(LocalTime now, String between) {
         int start_hour = Integer.parseInt(between.substring(0, 2));
         int start_min = Integer.parseInt(between.substring(3, 5));
         int end_hour = Integer.parseInt(between.substring(6, 8));
