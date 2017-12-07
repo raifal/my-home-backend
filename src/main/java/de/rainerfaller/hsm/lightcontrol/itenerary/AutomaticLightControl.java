@@ -53,7 +53,7 @@ public class AutomaticLightControl {
 
             plan.put("9", "17:02-18:10");
             plan.put("9", "22:15-23:10");
-            plan.put("9", "06:50-7:40");
+            plan.put("9", "06:50-07:40");
 
             for ( String id: plan.keySet())
             {
