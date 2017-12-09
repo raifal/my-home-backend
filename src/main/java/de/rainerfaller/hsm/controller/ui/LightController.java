@@ -41,6 +41,17 @@ public class LightController {
         return "processed";
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/hsm/light/{id}")
+    public @ResponseBody
+    Light light(@PathVariable("id") String id) {
+        for ( Light c:  lights())
+        {
+            if ( id.equals(c.getId()))
+                return c;
+        }
+        return null;
+    }
+
     @RequestMapping(method = RequestMethod.GET, path = "/hsm/lights")
     public @ResponseBody
     List<Light> lights() {
@@ -73,6 +84,4 @@ public class LightController {
         while (timeoutMillis > 0);
         throw new RuntimeException("Timout waiting for light inventory");
     }
-
-
 }
