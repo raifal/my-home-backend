@@ -11,7 +11,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -27,49 +29,74 @@ public class AutomaticLightControl {
 
     @Scheduled(cron = "*/30 * * * * *")
     public void trigger() {
+        LocalTime now = LocalTime.now();
         if (homeAwayController.homestatus().getHome()) {
             // at home, turn off all lights
             for (Light light : lightController.lights()) {
                 lightController.lightOff(light.getId());
             }
+            logger.info("now is: " + now + " and all lights are off");
         } else {
             // not at home, so enable automatic light control
-            LocalTime now = LocalTime.now();
-            logger.info("now is: " + now);
 
             Map<String, Boolean> l = new HashMap<>();
             l.put("8", false);
             l.put("9", false);
             l.put("10", false);
 
-            Map<String, String> plan = new HashMap<>();
-            plan.put("8", "18:00-18:45");
-            plan.put("8", "19:00-19:45");
-            plan.put("8", "20:30-21:30");
-            plan.put("8", "06:30-07:00");
+            List<LightIdPeriod> plan = new ArrayList<>();
 
-            plan.put("10", "18:55-19:05");
-            plan.put("10", "20:05-22:05");
+            // Rainer
+            plan.add(new LightIdPeriod("8", "18:00-18:45"));
+            plan.add(new LightIdPeriod("8", "19:00-19:45"));
+            plan.add(new LightIdPeriod("8", "20:30-21:30"));
+            plan.add(new LightIdPeriod("8", "06:30-07:00"));
 
-            plan.put("9", "17:02-18:10");
-            plan.put("9", "22:15-23:10");
-            plan.put("9", "06:50-07:40");
+            // Studio
+            plan.add(new LightIdPeriod("10", "18:55-19:05"));
+            plan.add(new LightIdPeriod("10", "20:05-22:05"));
 
-            for ( String id: plan.keySet())
-            {
-                if (withinPeriod(now, plan.get(id)))
-                    l.put(id, true);
+            // Wohnzimmer
+            plan.add(new LightIdPeriod("9", "17:02-18:10"));
+            plan.add(new LightIdPeriod("9", "22:15-23:10"));
+            plan.add(new LightIdPeriod("9", "06:50-07:40"));
+
+            String lightMsg = "";
+            for (LightIdPeriod c : plan) {
+                if (withinPeriod(now, c.getPeriod())) {
+                    l.put(c.getId(), true);
+                    lightMsg += " " + c.getId();
+                }
             }
 
-            for (String id: l.keySet())
-            {
-                if ( l.get(id))
+            for (String id : l.keySet()) {
+                if (l.get(id))
                     lightController.lightOn(id);
                 else
                     lightController.lightOff(id);
             }
+
+            logger.info("now is: " + now + " and the following lights are on: " + lightMsg);
         }
 
+    }
+
+    static class LightIdPeriod {
+        private String id;
+        private String period;
+
+        public LightIdPeriod(String id, String period) {
+            this.id = id;
+            this.period = period;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getPeriod() {
+            return period;
+        }
     }
 
     private boolean withinPeriod(LocalTime now, String between) {
