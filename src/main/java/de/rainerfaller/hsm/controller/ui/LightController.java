@@ -41,6 +41,18 @@ public class LightController {
         return "processed";
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/hsm/light/all/off")
+    public @ResponseBody
+    String lightsAllOff() {
+        List<String> lightIds = new ArrayList<>();
+        for ( Light c:  lights())
+        {
+            lightIds.add(c.getId());
+        }
+        piManager.changeLightStatusAndSendInventory(lightIds, false);
+        return "processed";
+    }
+
     @RequestMapping(method = RequestMethod.GET, path = "/hsm/light/{id}")
     public @ResponseBody
     Light light(@PathVariable("id") String id) {

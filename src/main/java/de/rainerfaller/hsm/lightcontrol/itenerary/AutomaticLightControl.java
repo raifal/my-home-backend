@@ -32,9 +32,9 @@ public class AutomaticLightControl {
         LocalTime now = LocalTime.now();
         if (homeAwayController.homestatus().getHome()) {
             // at home, turn off all lights
-            for (Light light : lightController.lights()) {
+            /*for (Light light : lightController.lights()) {
                 lightController.lightOff(light.getId());
-            }
+            }*/
             logger.info("now is: " + now + " and all lights are off");
         } else {
             // not at home, so enable automatic light control

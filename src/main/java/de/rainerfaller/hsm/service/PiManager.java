@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -26,9 +28,18 @@ public class PiManager {
 
     public void changeLightStatusAndSendInventory(String lightId, boolean on)
     {
+        ArrayList l = new ArrayList();
+        l.add(lightId);
+        changeLightStatusAndSendInventory(l, on);
+    }
+
+    public void changeLightStatusAndSendInventory(List<String> lightIds, boolean on)
+    {
 
         Map<String, LightStatus> light = new HashMap<>();
-        light.put(lightId, on ? LightStatus.ON : LightStatus.OFF);
+        for ( String c: lightIds) {
+            light.put(c, on ? LightStatus.ON : LightStatus.OFF);
+        }
 
         sendWithInventory(light);
     }
