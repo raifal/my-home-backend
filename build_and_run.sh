@@ -2,7 +2,7 @@
 
 . ./setup_dev_env.sh
 
-mvn clean install
+mvn clean install -DskipTests=true
 
 # remove
 docker network disconnect rf_network my-home-backend
