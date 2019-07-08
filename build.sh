@@ -8,11 +8,10 @@ mvn clean install
 docker network disconnect rf_network my-home-backend
 docker stop my-home-backend
 docker rm -v my-home-backend
-docker rmi my-home-backend
+#docker rmi my-home-backend
 
 # build
-docker build -t my-home-backend Docker/.
+docker build -t my-home-backend --file Docker/Dockerfile .
 
 # start
-docker run -d --volume=$PWD/target/my-home-backend-webapp.jar:/maven --name my-home-backend my-home-backend
-docker network connect rf_network my-home-backend
+docker run -d --network="rf_network" --name my-home-backend my-home-backend

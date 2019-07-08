@@ -40,6 +40,7 @@
                             <goal>repackage</goal>
                         </goals>
                         <configuration>
+                            <mainClass>de.rainerfaller.hsm.backend.MyHomeBackendWebappApplication</mainClass>
                             <finalName>${project.name}</finalName>
                         </configuration>
                     </execution>
