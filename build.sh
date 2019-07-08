@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./setup_dev_env.sh
+. ./setup_dev_env.sh
 
 mvn clean install
 
