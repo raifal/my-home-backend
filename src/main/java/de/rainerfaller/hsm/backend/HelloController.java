@@ -13,6 +13,6 @@ public class HelloController {
     public @ResponseBody
     String lightOn() {
 
-        return "processed";
+        return "processed2";
     }
 }
